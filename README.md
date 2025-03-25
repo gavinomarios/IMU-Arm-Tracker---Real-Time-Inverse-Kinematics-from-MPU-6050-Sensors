@@ -133,13 +133,6 @@ python3 code/visualize.py
 
 ## ROS Integration
 
-### 🔎 ROS Core Concepts (20% of the Theory for 80% of the Usage):
-- **Nodes:** Individual programs (Python or C++) performing tasks.
-- **Topics:** Channels where nodes publish/subscribe data.
-- **Messages:** Data structures passed between nodes.
-- **Publisher/Subscriber Model:** Decouples data producers and consumers.
-- **Catkin Workspaces:** Standard build system to manage ROS packages.
-
 ### 📡 ROS Publishing Example (Joint Angles and 3D Position):
 - Publish `sensor_msgs/JointState` for angles
 - Publish `geometry_msgs/Point` for 3D position
