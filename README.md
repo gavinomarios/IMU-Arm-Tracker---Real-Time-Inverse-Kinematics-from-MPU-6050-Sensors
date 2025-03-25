@@ -167,7 +167,7 @@ python3 code/visualize.py
 
 **TL;DR:** ROS turns your IMU tracker into a **real-time data broadcaster**, making it compatible with **robots, simulations, and visualization tools** — **plug-and-play ready** for any ROS ecosystem.
 
-### 📡 ROS Publishing Example (Joint Angles and 3D Position):
+### ROS Publishing Example (Joint Angles and 3D Position):
 - Publish `sensor_msgs/JointState` for angles
 - Publish `geometry_msgs/Point` for 3D position
 
@@ -219,7 +219,7 @@ position: [0.261, 0.785, 0.044, 1.523]  # radians
 ```
 
 
-### 🖥 RViz / Gazebo Simulation:
+### RViz / Gazebo Simulation:
 - Add a `robot_state_publisher` and URDF model for visualization.
 - View live joint movement in RViz.
 - Optional: Use Gazebo + ROS Control or direct plugin for simulation.
