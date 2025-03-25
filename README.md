@@ -172,19 +172,6 @@ Example `roslaunch imu_arm_tracker imu_arm_tracker.launch` to start tracking + R
 
 ---
 
-## Embedding Videos / GIFs in README
-- **Local GIF:**
-```md
-![Demo](docs/arm_tracker_demo.gif)
-```
-- **Video with GitHub CDN:** Drag-and-drop `.mp4` into README.
-- **External Video (YouTube):**
-```md
-[![Demo Video](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://youtu.be/VIDEO_ID)
-```
-
----
-
 ## Further Steps
 - Real-time plotting  
 - Data serialization  
