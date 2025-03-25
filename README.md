@@ -111,7 +111,27 @@ python3 code/visualize.py
 
 ---
 
-## Further Steps 
+## Advanced Filtering (Madgwick / Mahony / Kalman)
+
+### Advanced Filtering Adds:
+| Improvement               | Effect                                                    |
+|---------------------------|------------------------------------------------------------|
+| Drift Correction          | Prevents the robot arm from "twisting" over time           |
+| Smooth Angle Estimation   | Eliminates jitter in elbow/shoulder angles                 |
+| Yaw Stability             | Stabilizes rotation around vertical (good for turning)     |
+| Faster Dynamic Response   | Better handling of fast arm movements                      |
+| Quaternions               | Avoids gimbal lock issues when computing 3D rotations      |
+
+| Scenario               | Without Filter           | With Madgwick / Mahony / Kalman    |
+|------------------------|--------------------------|------------------------------------|
+| Static accuracy        | ~5° to 10° error          | ~1° to 3° error                    |
+| Fast motion            | Jitter & overshoot        | Smooth, responsive                 |
+| Yaw drift after 2 min  | Noticeable                | Minimal to none                    |
+| Long-term use          | Needs re-zero / recalib   | Can run much longer, self-corrects |
+
+---
+
+## Further Steps
 -Basic inverse kinematics from IMUs  
 -Real-time plotting  
 -Data serialization  
