@@ -72,12 +72,6 @@ accel_offset_upper, gyro_offset_upper = calibrate_mpu(ADDR_UPPER)
 accel_offset_forearm, gyro_offset_forearm = calibrate_mpu(ADDR_FOREARM)
 
 
-# Replace these offsets from the calibration: 
-accel_offset_upper = [0, 0, 0]   # e.g., small offsets if sensor not perfectly level
-gyro_offset_upper  = [0, 0, 0]   # gyro biases
-accel_offset_forearm = [0, 0, 0]
-gyro_offset_forearm  = [0, 0, 0]
-
 # Reading loop (30 Hz)
 import math
 dt = 1/30.0  # time per frame ~0.0333s
