@@ -131,13 +131,72 @@ python3 code/visualize.py
 
 ---
 
+## ROS Integration
+
+### 🔎 ROS Core Concepts (20% of the Theory for 80% of the Usage):
+- **Nodes:** Individual programs (Python or C++) performing tasks.
+- **Topics:** Channels where nodes publish/subscribe data.
+- **Messages:** Data structures passed between nodes.
+- **Publisher/Subscriber Model:** Decouples data producers and consumers.
+- **Catkin Workspaces:** Standard build system to manage ROS packages.
+
+### 📡 ROS Publishing Example (Joint Angles and 3D Position):
+- Publish `sensor_msgs/JointState` for angles
+- Publish `geometry_msgs/Point` for 3D position
+
+Example ROS Python publisher (run with `rosrun`):
+```python
+import rospy
+from sensor_msgs.msg import JointState
+from geometry_msgs.msg import Point
+from std_msgs.msg import Header
+
+rospy.init_node('imu_arm_publisher')
+joint_pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
+pos_pub = rospy.Publisher('/arm_position', Point, queue_size=10)
+rate = rospy.Rate(10)
+
+while not rospy.is_shutdown():
+    joint_state = JointState()
+    joint_state.header = Header()
+    joint_state.header.stamp = rospy.Time.now()
+    joint_state.name = ["shoulder_joint", "elbow_joint", "wrist_joint"]
+    joint_state.position = [0.5, 1.0, 0.2]  # Replace with actual sensor data
+
+    point = Point(0.25, 0.1, 0.5)  # Replace with actual position
+
+    joint_pub.publish(joint_state)
+    pos_pub.publish(point)
+    rate.sleep()
+```
+
+### 🖥 RViz / Gazebo Simulation:
+- Add a `robot_state_publisher` and URDF model for visualization.
+- View live joint movement in RViz.
+- Optional: Use Gazebo + ROS Control or direct plugin for simulation.
+
+Example `roslaunch imu_arm_tracker imu_arm_tracker.launch` to start tracking + RViz visualization.
+
+---
+
+## Embedding Videos / GIFs in README
+- **Local GIF:**
+```md
+![Demo](docs/arm_tracker_demo.gif)
+```
+- **Video with GitHub CDN:** Drag-and-drop `.mp4` into README.
+- **External Video (YouTube):**
+```md
+[![Demo Video](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://youtu.be/VIDEO_ID)
+```
+
+---
+
 ## Further Steps
--Basic inverse kinematics from IMUs  
--Real-time plotting  
--Data serialization  
--ROS integration  
--Advanced sensor fusion (Madgwick/Kalman)  
--Magnetometer support for yaw correction
+- Real-time plotting  
+- Data serialization  
+- Advanced sensor fusion (Madgwick/Kalman)  
+- Magnetometer support for yaw correction
 
 ---
 
