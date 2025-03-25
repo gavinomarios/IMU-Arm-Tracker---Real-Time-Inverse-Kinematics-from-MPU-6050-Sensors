@@ -42,6 +42,36 @@ def read_raw_values(addr):
     gyro_x  = to_signed(gyro_x);   gyro_y  = to_signed(gyro_y);   gyro_z  = to_signed(gyro_z)
     return accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z
 
+#Calibration Function
+def calibrate_mpu(addr, samples=200):
+    print(f"Calibrating sensor at address {hex(addr)}...")
+    accel_offset = [0, 0, 0]
+    gyro_offset = [0, 0, 0]
+    
+    for _ in range(samples):
+        ax, ay, az, gx, gy, gz = read_raw_values(addr)
+        accel_offset[0] += ax
+        accel_offset[1] += ay
+        accel_offset[2] += az
+        gyro_offset[0] += gx
+        gyro_offset[1] += gy
+        gyro_offset[2] += gz
+        time.sleep(0.01)  # slight delay between samples
+
+    # Average the offsets
+    accel_offset = [x / samples for x in accel_offset]
+    gyro_offset = [x / samples for x in gyro_offset]
+    
+    print(f"Calibration complete for {hex(addr)}")
+    print(f"Accel Offset: {accel_offset}")
+    print(f"Gyro Offset: {gyro_offset}")
+    return accel_offset, gyro_offset
+
+# Run calibration once before the loop
+accel_offset_upper, gyro_offset_upper = calibrate_mpu(ADDR_UPPER)
+accel_offset_forearm, gyro_offset_forearm = calibrate_mpu(ADDR_FOREARM)
+
+
 # Replace these offsets from the calibration: 
 accel_offset_upper = [0, 0, 0]   # e.g., small offsets if sensor not perfectly level
 gyro_offset_upper  = [0, 0, 0]   # gyro biases
