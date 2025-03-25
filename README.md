@@ -177,24 +177,45 @@ import rospy
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Point
 from std_msgs.msg import Header
+from kinematics import compute_kinematics  # Wrap your kinematics block in this function
 
 rospy.init_node('imu_arm_publisher')
 joint_pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
 pos_pub = rospy.Publisher('/arm_position', Point, queue_size=10)
-rate = rospy.Rate(10)
+rate = rospy.Rate(30)  # Match IMU sampling
 
 while not rospy.is_shutdown():
+    # Get the latest kinematics output
+    output_data = compute_kinematics()  # output_data is your full JSON-like dict
+    
+    # Fill JointState with shoulder angles (yaw, pitch, roll) + elbow flexion
     joint_state = JointState()
     joint_state.header = Header()
     joint_state.header.stamp = rospy.Time.now()
-    joint_state.name = ["shoulder_joint", "elbow_joint", "wrist_joint"]
-    joint_state.position = [0.5, 1.0, 0.2]  # Replace with actual sensor data
+    joint_state.name = ["shoulder_yaw", "shoulder_pitch", "shoulder_roll", "elbow_flex"]
+    joint_state.position = [
+        np.radians(output_data['shoulder_angles']['yaw']),   # Convert back to radians if needed
+        np.radians(output_data['shoulder_angles']['pitch']),
+        np.radians(output_data['shoulder_angles']['roll']),
+        np.radians(output_data['elbow_angle'])               # elbow angle in degrees → radians
+    ]
+    
+    # Publish wrist (end-effector) 3D position
+    wrist_pos = output_data['wrist_position']
+    point = Point(wrist_pos[0], wrist_pos[1], wrist_pos[2])
 
-    point = Point(0.25, 0.1, 0.5)  # Replace with actual position
-
+    # Publish both messages
     joint_pub.publish(joint_state)
     pos_pub.publish(point)
+
     rate.sleep()
+
+#Example ROS /joint_states Published:
+header:
+  stamp: 123456.789
+  frame_id: ''
+name: ['shoulder_yaw', 'shoulder_pitch', 'shoulder_roll', 'elbow_flex']
+position: [0.261, 0.785, 0.044, 1.523]  # radians
 ```
 
 
